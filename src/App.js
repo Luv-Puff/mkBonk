@@ -1,6 +1,5 @@
 import React ,{Component, useEffect, useRef, useState}from 'react';
 import ReactDOM from 'react-dom';
-// import logo from './logo.svg';
 import './App.css';
 import H3title from "./header";
 
@@ -70,6 +69,20 @@ function App() {
     };
     reader.readAsDataURL(file);
   }
+
+  function saveImg() {
+    const canvas = canvasRef.current
+    var img= canvas.toDataURL("image/png");
+    var link = document.createElement('a');
+        link.download = 'mkBonk.png';
+        link.href = img;
+        link.click();
+  }
+  function clearCanvas() {
+    const canvas = canvasRef.current
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
   return (
     <div className="App">
         <header className="App-header">
@@ -82,12 +95,12 @@ function App() {
                 <canvas style={canvasStyle} id='2dcanvas' ref={canvasRef} onMouseDown={startDrawing} onMouseUp={endDrawing} onMouseMove={draw}></canvas>
               </div>
           </div>
-        <div style={{textAlign: 'center'}}>
+        <div style={{textAlign: 'center',paddingTop:"2vh"}}>
         <button id="openphoto1" onClick={OpenPhoto1} >Open a photo</button>      
-        <span id="openphoto2" style={{display: 'none'}}>Pick a photo: <input type="file" id="files" onChange={handleimg}/></span> <br />
+        <span id="openphoto2" style={{display: 'none'}}>Pick a photo: <input type="file" id="files" onChange={handleimg}/></span>
         <button>Undo</button>         
-        <button>Start over</button>        
-        <button>Save</button>      
+        <button onClick={clearCanvas}>Start over</button>        
+        <button onClick={saveImg} >Save</button>      
       </div>
     </div>
     

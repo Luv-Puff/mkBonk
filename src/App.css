@@ -3,7 +3,7 @@
 } */
 
 .App-logo {
-  height: 40vmin;
+  height: 5vmin;
   pointer-events: none;
 }
 
@@ -56,12 +56,12 @@
 }
 
 body {
- -ms-user-select: none; /* turn off user selection */
+ user-select: none; /* turn off user selection */
  font-size: 12pt;
 }
 
 canvas {
-  -ms-touch-action: none; /* turn off panning and zooming */
+    touch-action: none; /* turn off panning and zooming */
     border: 5px solid #61dafb;
     width: 600px;
     height: auto;
