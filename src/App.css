@@ -57,21 +57,16 @@
 
 body {
  user-select: none; /* turn off user selection */
- font-size: 12pt;
 }
 
 canvas {
     touch-action: none; /* turn off panning and zooming */
-    border: 5px solid #61dafb;
+    /* border: 5px solid #61dafb;
     width: 600px;
-    height: auto;
+    height: auto; */
 }
 
-.heading
-{
-  font-size: 20pt;
-  font-weight: normal;
-}
+
 
 #ErrorMessage {
   position:absolute;
