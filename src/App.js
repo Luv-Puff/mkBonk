@@ -3,7 +3,7 @@ import './App.css';
 import H3title from "./header";
 import {fabric} from 'fabric';
 import bat from './images/Baseball_bat.png';
-import WarpImage from './fabric-warp-image';
+import WarpImage from './lib/fabric-warp-image';
 
 const canvasStyle={
   position:"absolute",
@@ -21,6 +21,8 @@ const App = () => {
   fabric.Object.prototype.cornerStyle = 'circle';
   fabric.Object.prototype.borderColor = 'Chartreuse';
   fabric.Object.prototype.transparentCorners=false;
+  const batimg = new Image();
+  batimg.src = bat;
   // const [imgURL, setImgURL] = useState('');
   useEffect(() => {
     const s= document.createElement("script");
@@ -52,9 +54,7 @@ const App = () => {
   }
   const addtest = (e, canvi) => {
     e.preventDefault();
-    var i = new Image();
-    i.src = 'logo'
-    const testbat = new WarpImage(i,{fixedPoints: 8})
+    const testbat = new WarpImage(batimg,{fixedPoints: 8})
     canvi.add(testbat)
     canvi.renderAll()
   }
