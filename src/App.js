@@ -3,6 +3,7 @@ import './App.css';
 import H3title from "./header";
 import {fabric} from 'fabric';
 import bat from './images/Baseball_bat.png';
+import WarpImage from './fabric-warp-image';
 
 const canvasStyle={
   position:"absolute",
@@ -22,6 +23,8 @@ const App = () => {
   fabric.Object.prototype.transparentCorners=false;
   // const [imgURL, setImgURL] = useState('');
   useEffect(() => {
+    const s= document.createElement("script");
+    s.src=""
     const canvas = canvasRef.current
     canvas.width = canvas.offsetWidth
     canvas.height = canvas.offsetHeight
@@ -33,7 +36,7 @@ const App = () => {
     document.getElementById("openphoto2").style.display = "inline";
   }
   const initCanvas = () => (
-    new fabric.Canvas('canvas', {
+    new fabric.Canvas('Fcanvas', {
       height: 600,
       width: 600,
     })
@@ -46,6 +49,14 @@ const App = () => {
     });
     canvi.add(rect);
     canvi.renderAll();
+  }
+  const addtest = (e, canvi) => {
+    e.preventDefault();
+    var i = new Image();
+    i.src = 'logo'
+    const testbat = new WarpImage(i,{fixedPoints: 8})
+    canvi.add(testbat)
+    canvi.renderAll()
   }
   const addbat = (e, canvi) => {
     e.preventDefault();
@@ -94,17 +105,18 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <H3title/>
-        <div style={{width:"600px",height:"600px",position:"relative"}}> 
-          <canvas ref={canvasRef} style={canvasStyle}/>
-          <canvas id="canvas" style={canvasStyle}/>
-        </div>
-        <div style={{textAlign: 'center',paddingTop:"2vh"}}>
+        <div style={{textAlign: 'center'}}>
           <button id="openphoto1" onClick={OpenPhoto1} >Open a photo</button>      
           <span id="openphoto2" style={{display: 'none'}}>Pick a photo: <input type="file" id="files" onChange={handleimg}/></span>
-          <button onClick={e => addbat(e, canvas)}>Bonk</button>       
+          <button onClick={e => addtest(e, canvas)}>Bonk</button>       
           <button onClick={clearCanvas}>Start over</button>        
           <button onClick={saveImg} >Save</button>      
         </div>
+        <div style={{width:"600px",height:"600px",position:"relative"}}> 
+          <canvas ref={canvasRef} style={canvasStyle}/>
+          <canvas id="Fcanvas" style={canvasStyle}/>
+        </div>
+        
       
       
       </header>
