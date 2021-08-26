@@ -23,6 +23,7 @@ const App = () => {
   fabric.Object.prototype.transparentCorners=false;
   const batimg = new Image();
   batimg.src = bat;
+  let scale = 1;
   // const [imgURL, setImgURL] = useState('');
   useEffect(() => {
     const s= document.createElement("script");
@@ -43,6 +44,7 @@ const App = () => {
       width: 600,
     })
   )
+
   const addRect = canvi => {
     const rect = new fabric.Rect({
       height: 140,
@@ -52,44 +54,44 @@ const App = () => {
     canvi.add(rect);
     canvi.renderAll();
   }
-  const addtest = (e, canvi) => {
+
+  const addBat = (e) => {
     e.preventDefault();
     const testbat = new WarpImage(batimg,{fixedPoints: 8})
-    canvi.add(testbat)
-    canvi.renderAll()
+    canvas.add(testbat)
+    canvas.renderAll()
   }
-  const addbat = (e, canvi) => {
-    e.preventDefault();
-    var i = new Image();
-    i.src = 'logo'
-    new fabric.Image.fromURL(bat, img => {
-      img.scale(0.75);
-      canvi.add(img);
-      canvi.renderAll();
-      //setImgURL('');
-    });
-  }
-  function drawImg(image,ctx) {
-    ctx.drawImage(image, 0, 0, image.width, image.height);
-  }
+  
+  // Pick image
   const handleimg = (evt)=>{
     var files = evt.target.files;
     var file= files[0];
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
+
     const reader = new FileReader()
-    reader.onload = function (e) {
+    reader.onload = (e) => {
       var image = new Image()
-      image.onload = ()=>{
-        drawImg(image,ctx)
-      }
-      image.src=this.result
+      image.src=e.target.result
+
+      image.onload = () => {
+        
+        const scaleX = canvas.width / image.width
+        const scaleY = canvas.height / image.height
+        // 
+        scale = Math.min(scaleX, scaleY, 1);
+        console.log(`width : ${image.width} px`, `height: ${image.height} px`, `scale: ${scale}`);
+        var fabricImage = new fabric.Image(image,{
+          selectable: false,
+          scaleX: scale,
+          scaleY: scale
+        } ) 
+        canvas.add(fabricImage)
+        canvas.renderAll();
+      } 
     };
     reader.readAsDataURL(file);
   }
 
   function saveImg() {
-    const canvas = canvasRef.current
     var img= canvas.toDataURL("image/png");
     var link = document.createElement('a');
         link.download = 'mkBonk.png';
@@ -97,7 +99,6 @@ const App = () => {
         link.click();
   }
   function clearCanvas() {
-    const canvas = canvasRef.current
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
@@ -108,7 +109,7 @@ const App = () => {
         <div style={{textAlign: 'center'}}>
           <button id="openphoto1" onClick={OpenPhoto1} >Open a photo</button>      
           <span id="openphoto2" style={{display: 'none'}}>Pick a photo: <input type="file" id="files" onChange={handleimg}/></span>
-          <button onClick={e => addtest(e, canvas)}>Bonk</button>       
+          <button onClick={addBat}>Bonk</button>       
           <button onClick={clearCanvas}>Start over</button>        
           <button onClick={saveImg} >Save</button>      
         </div>
